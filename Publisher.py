@@ -7,6 +7,10 @@
 import paho.mqtt.client as mqtt
 import time
 
+# Define the MQTT broker and port
+broker = "localhost"  # broker ip address
+port = 1883  # Define the port to use for the connection
+
 
 # This function is called when the client connects to the MQTT broker
 def on_connect(client, userdata, flags, rc):
@@ -38,9 +42,6 @@ def publish_messages(client):
 
 # The main function
 def main():
-    # Define the MQTT broker and port
-    broker = "localhost"  # broker ip address
-    port = 1883  # Define the port to use for the connection
 
     # Create a new MQTT client
     client = mqtt.Client()

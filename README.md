@@ -79,7 +79,7 @@ allow_anonymous true
 log_type all
 ```
 
-These commands set up the broker to listen on port 1883, allow anonymous connections, and log detailed information about its operation, aiding in development and troubleshooting.
+These commands set up the broker to listen on port 1883, allow anonymous connections, and log detailed information about its operation, aiding in development and troubleshooting. Please take a note that for beter security it is recommended use ip adress next to listener.
 
 ### Applying Configuration Changes
 
