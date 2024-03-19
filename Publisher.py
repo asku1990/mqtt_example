@@ -27,8 +27,7 @@ def on_message(client, userdata, msg):
 def publish_messages(client):
     # Define the topics and messages to be published
     topics = {
-        "device/device1": "Hello device1",
-        # "device/macbookpro": "Hello Macbook Pro!",
+        "device/device1": "Hello device1",  # Publish a message to the "device/device1" topic when connected
     }
 
     # Publish each message to its corresponding topic
@@ -41,7 +40,7 @@ def publish_messages(client):
 def main():
     # Define the MQTT broker and port
     broker = "localhost"  # broker ip address
-    port = 1883
+    port = 1883  # Define the port to use for the connection
 
     # Create a new MQTT client
     client = mqtt.Client()
@@ -51,7 +50,7 @@ def main():
 
     # Try to connect to the MQTT broker
     try:
-        client.connect(broker, port, 60)
+        client.connect(broker, port, 60)  # Connect to the MQTT broker
     except Exception as e:
         print(f"Failed to connect to MQTT broker: {e}")
         return

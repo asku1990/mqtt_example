@@ -9,16 +9,16 @@ import time  # Import the time module
 
 # Define the MQTT broker settings
 broker = "localhost"  # broker ip address
-port = 1883
+port = 1883  # Define the port to use for the connection
 
-subscriber_id = "device1"
-status_topic = f"status/{subscriber_id}"
-general_topic = "messages/general"
-direct_topic = f"device/{subscriber_id}"
+subscriber_id = "device1"  # Define the subscriber ID
+status_topic = f"status/{subscriber_id}"  # Define the status topic
+general_topic = "messages/general"  # Define the general topic
+direct_topic = f"device/{subscriber_id}"  # Define the direct topic
 
 # Define the messages
-lwt_message = "offline due to error"
-offline_message = "offline"
+lwt_message = "offline due to error"  # Define the Last Will and Testament (LWT) message
+offline_message = "offline"  # Define the offline message
 
 
 # Define the callback function for when the client receives a CONNACK response from the server
@@ -28,9 +28,11 @@ def on_connect(client, userdata, flags, rc):
     else:
         print(f"Connected with result code {rc}")
     client.publish(
-        status_topic, "online", retain=True, qos=1
+        status_topic, "online", retain=True, qos=1  # Publish an "online" message
     )  # Publish an "online" message
-    client.subscribe([(general_topic, 0), (direct_topic, 0)])  # Subscribe to the topics
+    client.subscribe(
+        [(general_topic, 0), (direct_topic, 0)]
+    )  # Subscribe to the topics (general and direct)
 
 
 # Define the callback function for when a PUBLISH message is received from the server
@@ -52,7 +54,10 @@ def main():
     # Setup the MQTT client and assign the callback functions
     client = mqtt.Client()
     client.will_set(
-        status_topic, payload=lwt_message, qos=1, retain=True
+        status_topic,
+        payload=lwt_message,
+        qos=1,
+        retain=True,  # Set the Last Will and Testament (LWT) of the client with the retain flag set( to ensure the message is sent to new subscribers)
     )  # Set the Last Will and Testament (LWT) of the client
     client.on_connect = on_connect
     client.on_message = on_message
@@ -60,8 +65,8 @@ def main():
 
     # Connect to the MQTT broker
     try:
-        client.connect(broker, port, 60)
-    except Exception as e:
+        client.connect(broker, port, 60)  # Connect to the broker
+    except Exception as e:  # If an error occurs
         print(f"Failed to connect to MQTT broker: {e}")
         exit(1)
 
@@ -72,7 +77,9 @@ def main():
         input("Press Enter to disconnect...\n")
     finally:
         client.publish(
-            status_topic, offline_message, retain=True
+            status_topic,
+            offline_message,
+            retain=True,  # Publish an "offline" message with the retain flag set (to ensure the message is sent to new subscribers)
         )  # Publish an "offline" message
         time.sleep(
             1

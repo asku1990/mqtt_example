@@ -1,36 +1,20 @@
----
-
 # Python MQTT Publisher and Subscriber
 
 This repository contains two Python scripts demonstrating the basic operations of MQTT (Message Queuing Telemetry Transport) publishers and subscribers using the Paho MQTT client library.
 
-## publisher.py
+## Overview
 
-This script is a simple MQTT publisher that connects to a local MQTT broker, publishes messages to two topics, and subscribes to all topics of interest. It's designed to test the MQTT broker and subscriber code interactions.
+### Introduction to MQTT
 
-### Key Functions
+[MQTT](https://mqtt.org) stands for Message Queuing Telemetry Transport. This lightweight messaging protocol is optimized for low-bandwidth, low-footprint communication, making it perfect for connecting remote devices in the Internet of Things (IoT).
 
-- `on_connect`: Triggered upon client connection to the MQTT broker, subscribing to all topics of interest.
-- `on_message`: Invoked when a message is received, displaying its content.
-- `publish_messages`: Handles publishing messages to specified topics on the broker.
+### Quality of Service (QoS) Levels
 
-### Main Function
+MQTT offers three levels of Quality of Service (QoS) to cater to different message delivery guarantees:
 
-The `main` function orchestrates the connection to the MQTT broker, initiating message publishing, and managing user input to disconnect gracefully. It sets up the MQTT client, connects to the broker, and enters a loop to maintain the connection until the user decides to disconnect.
-
-## subscriber.py
-
-This script acts as an MQTT subscriber, establishing a connection to a broker and listening to messages on specified topics. It showcases how to use the Paho MQTT client to manage subscriptions and process incoming messages.
-
-### Key Functions
-
-- `on_connect`: Called after the server responds to the connection request. It publishes an "online" status message and sets up subscriptions to specific topics.
-- `on_message`: Executed when a message arrives, printing its details.
-- `on_disconnect`: Handles unexpected disconnection events, logging them for troubleshooting.
-
-### Main Function
-
-In `subscriber.py`, the `main` function is responsible for setting up the MQTT client, including configuring the Last Will and Testament (LWT) for notifying others in case of disconnection. It connects to the MQTT broker and starts a loop to keep the client running, allowing it to receive messages. User input triggers a clean disconnection process, ensuring the client's status is updated to "offline" before shutting down.
+- **QoS 0 (At most once)**: Fast and lightweight, with no guarantee of delivery.
+- **QoS 1 (At least once)**: Ensures delivery but may result in duplicate messages.
+- **QoS 2 (Exactly once)**: Provides a guarantee of single, exact delivery, ideal for critical messages.
 
 ## Installation
 
@@ -55,11 +39,11 @@ python3 subscriber.py
 
 For local testing, Mosquitto is a widely used MQTT broker. Installation varies by platform:
 
-- **macOS**: 
+- **macOS**:
   ```
   brew install mosquitto
   ```
-- **Linux**: 
+- **Linux**:
   ```
   sudo apt-get install mosquitto
   ```
@@ -126,4 +110,32 @@ To ensure your broker is running correctly, you can use the command-line utiliti
 
 If everything is configured correctly, the subscriber should receive the "Hello MQTT" message shortly after it's published.
 
----
+# Detailed Script Information
+
+## publisher.py
+
+This script is a simple MQTT publisher that connects to a local MQTT broker, publishes messages to two topics, and subscribes to all topics of interest. It's designed to test the MQTT broker and subscriber code interactions.
+
+### Key Functions
+
+- `on_connect`: Triggered upon client connection to the MQTT broker, subscribing to all topics of interest.
+- `on_message`: Invoked when a message is received, displaying its content.
+- `publish_messages`: Handles publishing messages to specified topics on the broker.
+
+### Main Function
+
+The `main` function orchestrates the connection to the MQTT broker, initiating message publishing, and managing user input to disconnect gracefully. It sets up the MQTT client, connects to the broker, and enters a loop to maintain the connection until the user decides to disconnect.
+
+## subscriber.py
+
+This script acts as an MQTT subscriber, establishing a connection to a broker and listening to messages on specified topics. It showcases how to use the Paho MQTT client to manage subscriptions and process incoming messages.
+
+### Key Functions
+
+- `on_connect`: Called after the server responds to the connection request. It publishes an "online" status message and sets up subscriptions to specific topics.
+- `on_message`: Executed when a message arrives, printing its details.
+- `on_disconnect`: Handles unexpected disconnection events, logging them for troubleshooting.
+
+### Main Function
+
+In `subscriber.py`, the `main` function is responsible for setting up the MQTT client, including configuring the Last Will and Testament (LWT) for notifying others in case of disconnection. It connects to the MQTT broker and starts a loop to keep the client running, allowing it to receive messages. User input triggers a clean disconnection process, ensuring the client's status is updated to "offline" before shutting down.
