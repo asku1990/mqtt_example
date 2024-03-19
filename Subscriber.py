@@ -48,31 +48,38 @@ def on_disconnect(client, userdata, rc):
         )  # Print out a message if the disconnection was unexpected
 
 
-# Setup the MQTT client and assign the callback functions
-client = mqtt.Client()
-client.will_set(
-    status_topic, payload=lwt_message, qos=1, retain=True
-)  # Set the Last Will and Testament (LWT) of the client
-client.on_connect = on_connect
-client.on_message = on_message
-client.on_disconnect = on_disconnect
+def main():
+    # Setup the MQTT client and assign the callback functions
+    client = mqtt.Client()
+    client.will_set(
+        status_topic, payload=lwt_message, qos=1, retain=True
+    )  # Set the Last Will and Testament (LWT) of the client
+    client.on_connect = on_connect
+    client.on_message = on_message
+    client.on_disconnect = on_disconnect
 
-# Connect to the MQTT broker
-try:
-    client.connect(broker, port, 60)
-except Exception as e:
-    print(f"Failed to connect to MQTT broker: {e}")
-    exit(1)
+    # Connect to the MQTT broker
+    try:
+        client.connect(broker, port, 60)
+    except Exception as e:
+        print(f"Failed to connect to MQTT broker: {e}")
+        exit(1)
 
-# Start the network loop in a non-blocking way
-client.loop_start()
+    # Start the network loop in a non-blocking way
+    client.loop_start()
 
-try:
-    input("Press Enter to disconnect...\n")
-finally:
-    client.publish(
-        status_topic, offline_message, retain=True
-    )  # Publish an "offline" message
-    time.sleep(1)  # Wait to ensure the "offline" message is sent before disconnecting
-    client.disconnect()  # Disconnect from the broker
-    client.loop_stop()  # Stop the network loop
+    try:
+        input("Press Enter to disconnect...\n")
+    finally:
+        client.publish(
+            status_topic, offline_message, retain=True
+        )  # Publish an "offline" message
+        time.sleep(
+            1
+        )  # Wait to ensure the "offline" message is sent before disconnecting
+        client.disconnect()  # Disconnect from the broker
+        client.loop_stop()  # Stop the network loop
+
+
+if __name__ == "__main__":
+    main()
