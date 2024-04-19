@@ -8,12 +8,11 @@ import paho.mqtt.client as mqtt  # Import the Paho MQTT client
 import time  # Import the time module
 
 # Define the MQTT broker settings
-broker = "localhost"  # broker ip address
+broker = "192.168.50.53"  # broker ip address
 port = 1883  # Define the port to use for the connection
 
 subscriber_id = "device1"  # Define the subscriber ID
 status_topic = f"status/{subscriber_id}"  # Define the status topic
-general_topic = "messages/general"  # Define the general topic
 direct_topic = f"device/{subscriber_id}"  # Define the direct topic
 
 # Define the messages
@@ -31,7 +30,7 @@ def on_connect(client, userdata, flags, rc):
         status_topic, "online", retain=True, qos=1  # Publish an "online" message
     )  # Publish an "online" message
     client.subscribe(
-        [(general_topic, 0), (direct_topic, 0)]
+        [(direct_topic, 0)]
     )  # Subscribe to the topics (general and direct)
 
 
