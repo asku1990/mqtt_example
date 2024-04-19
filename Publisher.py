@@ -8,7 +8,7 @@ import paho.mqtt.client as mqtt
 import time
 
 # Define the MQTT broker and port
-broker = "localhost"  # broker ip address
+broker = "192.168.50.53"  # broker ip address
 port = 1883  # Define the port to use for the connection
 
 
@@ -32,6 +32,7 @@ def publish_messages(client):
     # Define the topics and messages to be published
     topics = {
         "device/device1": "Hello device1",  # Publish a message to the "device/device1" topic when connected
+        "device/device_umqtt": "Hello device_umqtt",  # Publish a message to the "device/device2" topic when connected
     }
 
     # Publish each message to its corresponding topic

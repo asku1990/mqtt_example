@@ -7,3 +7,6 @@ venv/
 .idea/
 *.log
 .DS_Store
+.vscode
+.micropico
+.myenv

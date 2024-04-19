@@ -21,7 +21,7 @@ MQTT offers three levels of Quality of Service (QoS) to cater to different messa
 To use these scripts, the Paho MQTT client library must be installed:
 
 ```
-pip3 install paho-mqtt
+pip install -r requirements.txt
 ```
 
 ## Usage
@@ -34,6 +34,8 @@ python3 subscriber.py
 ```
 
 ## Setting Up Your MQTT Broker
+
+You need one broker running. All the devices need the same IP address for it.
 
 ### Broker Installation
 
@@ -139,3 +141,65 @@ This script acts as an MQTT subscriber, establishing a connection to a broker an
 ### Main Function
 
 In `subscriber.py`, the `main` function is responsible for setting up the MQTT client, including configuring the Last Will and Testament (LWT) for notifying others in case of disconnection. It connects to the MQTT broker and starts a loop to keep the client running, allowing it to receive messages. User input triggers a clean disconnection process, ensuring the client's status is updated to "offline" before shutting down.
+
+# Python umqtt.simple and umqtt_Subscriber
+
+## Overview
+
+This Python script demonstrates the basic operations of umqtt.simple, a Message Queuing Telemetry Transport (MQTT) library.
+
+## Introduction to umqtt.simple
+
+umqtt.simple is a library for MicroPython. It is lighter than the standard mqtt-paho library, making it suitable for devices with limited resources.
+
+## Installation via Thonny
+
+1. Start by pressing the pico BOOTSEL button and connecting your device to the computer using a micro USB cable.
+2. Download the Raspberry Pi Pico Python SDK and transfer it to your Pico (which should appear as an external drive). You can find the SDK here: https://projects.raspberrypi.org/en/projects/get-started-pico-w/1
+3. Install Pico Zero for handling electronic components (also available in the link provided).
+4. Install umqtt.simple for MQTT connections.
+5. The instructions also include a WLAN code that you can use to test the connection. (You can use boot.py also for testing)
+
+## Connect to WLAN
+
+Add the boot.py file to the root folder of the Pico so it will connect to the WLAN when it boots up. You can do this via Thonny:
+
+1. Open the boot.py file.
+2. Select File > Save Copy, then save to the Pico's root directory as boot.py.
+
+You can test the code by just running the code.
+
+NOTE: Remember to edit your WLAN SSID and password in the boot.py file.
+
+## Connect to MQTT Broker
+
+Ensure that the MQTT broker is running and note its IP address.
+Edit the broker IP address in the umqtt_subscriber's code and run the code.
+When you run the MQTT publisher, you should see status messages. The publisher will also send a "hello" message when it connects.
+
+# Detailed Script Information
+
+## boot.py
+
+This script is a simple micropython code who connects to wlan.
+
+## umqtt_subscriber.py
+
+This script acts as an UMQTT.SIMPLE subscriber, establishing a connection to a broker and listening to messages on specified topics. It showcases how to use the umqtt.simpple client to manage subscriptions and process incoming messages.
+
+### Key Functions
+
+- `on_connect`: Called after the server responds to the connection request. It publishes an "online" status message and sets up subscriptions to specific topics.
+- `sub_scb`: Executed when a message arrives, printing its details. (this is special function for umqtt.simple)
+- `on_disconnect`: Handles unexpected disconnection events, logging them for troubleshooting.
+
+### Main Function
+
+In `umqtt_subscriber.py`, the `main` function is responsible for setting up the MQTT client, and notifying others in case of disconnection. It connects to the MQTT broker and starts a loop to keep the client running, allowing it to receive messages.
+
+## Here's how to use Pico with VS Code:
+
+1. Install the VS Code extension named MicroPico.
+2. Select the command MicroPico: Connect. On a Mac, you can do this by pressing Shift + Cmd + P and typing the beginning of the command.
+3. Next, select Configure Project from the same menu.
+4. Now you can write your Python code and run it. I used the Play and Stop buttons from the status bar at the bottom.
